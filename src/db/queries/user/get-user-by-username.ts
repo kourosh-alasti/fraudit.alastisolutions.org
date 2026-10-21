@@ -1,3 +1,5 @@
+"use server";
+
 import { clerkClient } from "@clerk/nextjs/server";
 import { getUser } from "./get-user";
 

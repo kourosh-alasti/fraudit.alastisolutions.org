@@ -5,8 +5,7 @@ import {
   SignInButton,
   SignOutButton,
   SignUpButton,
-  SignedIn,
-  SignedOut,
+  Show,
 } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
@@ -29,7 +28,7 @@ const MarketingPage = () => {
               <Loader className="h-5 w-5 animate-spin text-muted-foreground" />
             </ClerkLoading>
             <ClerkLoaded>
-              <SignedOut>
+              <Show when="signed-out">
                 <SignUpButton mode="modal">
                   <Button size="lg" variant={"default"} className="w-full">
                     Get Started
@@ -40,8 +39,8 @@ const MarketingPage = () => {
                     Already have an account?
                   </Button>
                 </SignInButton>
-              </SignedOut>
-              <SignedIn>
+              </Show>
+              <Show when="signed-in">
                 <Button
                   size="lg"
                   variant={"secondary"}
@@ -50,7 +49,7 @@ const MarketingPage = () => {
                 >
                   <Link href="/app">Contine Browsing</Link>
                 </Button>
-              </SignedIn>
+              </Show>
             </ClerkLoaded>
           </div>
         </div>

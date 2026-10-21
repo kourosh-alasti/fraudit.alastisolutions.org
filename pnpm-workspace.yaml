@@ -1,0 +1,19 @@
+minimumReleaseAgeExclude:
+  - "@clerk/backend@3.26.0"
+  - "@clerk/nextjs@7.9.18"
+  - "@clerk/react@6.18.0"
+  - "@clerk/shared@4.41.0"
+  - lucide-react@1.61.0
+  - postcss-selector-parser@7.1.7
+
+allowBuilds:
+  esbuild: true
+  unrs-resolver: true
+
+patchedDependencies:
+  braces@3.0.3: patches/braces@3.0.3.patch
+
+# Upstream packages still pin vulnerable transitive releases.
+overrides:
+  "@esbuild-kit/core-utils>esbuild": ^0.28.2
+  "@tailwindcss/typography>postcss-selector-parser": ^7.1.7

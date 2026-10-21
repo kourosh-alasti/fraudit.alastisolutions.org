@@ -1,3 +1,5 @@
+"use server";
+
 import db from "@/db/drizzle";
 import { comments } from "@/db/schema";
 import { eq } from "drizzle-orm";

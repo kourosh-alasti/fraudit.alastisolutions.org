@@ -40,14 +40,11 @@ cd fraudit
 
 3. Install the project dependencies:
 
+Use Node.js 22.13 or newer and the pnpm version pinned in `package.json`. The committed pnpm patch is required for the braces security fix.
+
 ```bash
-npm install
-# or
-yarn
-# or
-pnpm install
-# or
-bun install
+corepack enable
+pnpm install --frozen-lockfile
 ```
 
 4. Update your environment variables:
@@ -129,12 +126,7 @@ Fraudit is built using the following technologies:
 
 ### Package Managers
 
-The project uses the following package managers:
-
-- npm: A package manager for Javascript and Node.js
-- yarn: A package manager for Javascript and Node.js, similar to npm but with improved performance and features
-- pnpm: A fast, disk-space-efficient package manager for Javascript and Node.js
-- bun: A fast, all-in-one Javascript runtime for Node.js
+The project uses pnpm 12.14.0, pinned in `package.json`. Keep `pnpm-lock.yaml`, `pnpm-workspace.yaml`, and `patches/` together so installs apply the security patch and transitive overrides.
 
 ### Scripts
 
@@ -143,10 +135,22 @@ The project includes the following scripts:
 - `dev`: Starts the Next.js development server
 - `build`: Builds the Next.js application for production
 - `start`: Starts the Next.js production server
-- `lint`: Lints the codebase using ESLint following config from `.eslintrc.json`
-- `ngrok`: Sets up an ngrok tunnel to expose the local development server to the internet
+- `lint`: Lints the codebase using ESLint following `eslint.config.mjs`
 - `db:studio`: Starts the drizzle-kit studio for managing and visualizing database schema
 - `db:push`: Pushes Schema changes to hosted database
+
+### Dependency audit (October 20, 2026)
+
+All retained direct dependencies were checked against npm's latest stable releases, and transitive dependencies were refreshed. The initial audit reported 96 advisories (4 critical, 48 high, 37 moderate, 7 low). The final audit reports only `GHSA-vfj7-8cjw-p6xm` for braces; the registry scanner cannot account for the local patch. No advisory is suppressed.
+
+- `patches/braces@3.0.3.patch` applies the five runtime-file changes from [micromatch/braces PR #72](https://github.com/micromatch/braces/pull/72), including parsing/AST depth limits and cyclic-parent detection. Regression tests resolve the actual transitive braces copy. Remove the patch only after upgrading to an upstream release containing the fix.
+- Scoped overrides update esbuild under `@esbuild-kit/core-utils` and postcss-selector-parser under `@tailwindcss/typography`, whose latest parents still pin vulnerable versions. Revisit these overrides when those parents update their requirements.
+- TypeScript 7 runs `typecheck`. The `typescript` alias supplies the official TypeScript 6 compatibility API for Next.js and typescript-eslint, following [Microsoft's migration guidance](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/#running-side-by-side-with-typescript-6.0).
+- ESLint 10 runs successfully, but the current import, JSX accessibility, and React plugins still declare peer ranges through ESLint 9. Existing effect/state and effect-dependency issues remain lint warnings; the new React Compiler effect/state rule is configured as a warning during this dependency migration.
+- Next.js 16 uses `src/proxy.ts`, async request APIs, and ESLint's flat config. Clerk 7 uses `Show`; Zod 4 uses `error`; Svix 2 payloads are parsed only after signature verification. Database queries invoked from client components now use server actions.
+- Drizzle's CLI uses `push` instead of `push:pg`. The schema is unchanged; no database migration or live schema push is required. Schema generation was checked in a temporary directory.
+
+Run `pnpm test`, `pnpm typecheck`, `pnpm lint`, and `pnpm build` to verify changes. `pnpm audit` will continue to report the patched braces advisory until upstream publishes a fixed version. Two deprecated Drizzle tooling dependencies (`@esbuild-kit/core-utils` and `@esbuild-kit/esm-loader`) remain in its latest stable release.
 
 ### Changelog
 

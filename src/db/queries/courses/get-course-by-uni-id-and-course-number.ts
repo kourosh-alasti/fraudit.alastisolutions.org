@@ -1,3 +1,5 @@
+"use server";
+
 import db from "@/db/drizzle";
 import { courses } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
