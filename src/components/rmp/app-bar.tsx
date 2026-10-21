@@ -10,8 +10,7 @@ import {
   ClerkLoaded,
   ClerkLoading,
   SignInButton,
-  SignedIn,
-  SignedOut,
+  Show,
   UserButton,
 } from "@clerk/nextjs";
 import { Button } from "../ui/button";
@@ -53,11 +52,11 @@ export const AppBar = () => {
         >
           <ul className="flex w-full flex-col items-center justify-center gap-y-3 md:space-x-6 md:space-y-0">
             <div className="ml-2 flex items-center gap-x-1 md:ml-0 md:gap-4 md:self-end">
-              <SignedOut>
+              <Show when="signed-out">
                 <SignInButton mode="modal">
                   <Button>Sign In</Button>
                 </SignInButton>
-              </SignedOut>
+              </Show>
               <div>
                 <Button
                   className="px-1"
@@ -70,11 +69,11 @@ export const AppBar = () => {
                 </Button>
               </div>
 
-              <SignedIn>
+              <Show when="signed-in">
                 <li key="logout-user" className="block md:hidden">
                   <Button>Logout</Button>
                 </li>
-              </SignedIn>
+              </Show>
 
               <div className="hidden md:block">
                 <ClerkLoaded>

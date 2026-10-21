@@ -26,7 +26,7 @@ interface Props {
   
   const formSchema = z.object({
     title: z
-      .string({ required_error: "A Title is required to post a thread" })
+      .string({ error: "A Title is required to post a thread" })
       .min(6, { message: "Best Practices to have a well-defined title" }),
   });
 

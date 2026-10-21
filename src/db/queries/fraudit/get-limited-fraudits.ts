@@ -1,3 +1,5 @@
+"use server";
+
 import db from "@/db/drizzle";
 import { fraudits } from "@/db/schema";
 

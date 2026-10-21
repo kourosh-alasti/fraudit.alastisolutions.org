@@ -1,3 +1,5 @@
+"use server";
+
 import db from "@/db/drizzle";
 import { professors } from "@/db/schema";
 import { ilike, or } from "drizzle-orm";

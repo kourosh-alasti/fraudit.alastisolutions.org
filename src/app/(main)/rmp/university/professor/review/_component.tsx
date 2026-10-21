@@ -34,9 +34,9 @@ import { Label } from "@/components/ui/label";
 import { createReview } from "@/actions/rmp/reviews/create-review";
 
 const FormSchema = z.object({
-  courseId: z.string({ required_error: "You must select a course" }),
+  courseId: z.string({ error: "You must select a course" }),
   comment: z.string({
-    required_error: "You must leave a comment for your review",
+    error: "You must leave a comment for your review",
   }),
 });
 

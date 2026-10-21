@@ -12,8 +12,7 @@ import {
   ClerkLoaded,
   ClerkLoading,
   SignInButton,
-  SignedIn,
-  SignedOut,
+  Show,
   UserButton,
 } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
@@ -72,11 +71,11 @@ export const AppBar = () => {
               className="w-96 rounded-md border-slate-500 bg-transparent px-2 py-2 text-gray-500 md:hidden"
             />
             <div className="ml-2 flex items-center gap-x-1 md:ml-0 md:gap-4 md:self-end">
-              <SignedOut>
+              <Show when="signed-out">
                 <SignInButton>
                   <Button>Sign In</Button>
                 </SignInButton>
-              </SignedOut>
+              </Show>
               <div>
                 <Button className="px-1" variant={"outline"} asChild>
                   <Link href="/app/create/fraudit">
@@ -86,11 +85,11 @@ export const AppBar = () => {
                 </Button>
               </div>
 
-              <SignedIn>
+              <Show when="signed-in">
                 <li key="logout-user" className="block md:hidden">
                   <Button>Logout</Button>
                 </li>
-              </SignedIn>
+              </Show>
 
               <div className="hidden md:block">
                 <ClerkLoaded>

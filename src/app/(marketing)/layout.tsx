@@ -3,8 +3,7 @@ import {
   ClerkLoaded,
   ClerkLoading,
   SignInButton,
-  SignedIn,
-  SignedOut,
+  Show,
   UserButton,
 } from "@clerk/nextjs";
 import { Loader } from "lucide-react";
@@ -39,16 +38,16 @@ const LayoutHeader = () => {
           <Loader className="h-4 w-4 animate-spin text-muted-foreground" />
         </ClerkLoading>
         <ClerkLoaded>
-          <SignedIn>
+          <Show when="signed-in">
             <UserButton />
-          </SignedIn>
-          <SignedOut>
+          </Show>
+          <Show when="signed-out">
             <SignInButton mode="modal">
               <Button size="lg" variant="ghost">
                 Login
               </Button>
             </SignInButton>
-          </SignedOut>
+          </Show>
         </ClerkLoaded>
       </div>
     </header>

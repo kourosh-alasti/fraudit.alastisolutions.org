@@ -21,13 +21,13 @@ import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   title: z
-    .string({ required_error: "A Title is required" })
+    .string({ error: "A Title is required" })
     .min(6, { message: "Title Must be at least 6 characters" }),
   description: z
-    .string({ required_error: "A Description is required" })
+    .string({ error: "A Description is required" })
     .max(100, { message: "Description must be less than 100 characters" }),
   slug: z
-    .string({ required_error: "A Slug is required" })
+    .string({ error: "A Slug is required" })
     .min(5, { message: "Slug Must be at least 5 characters" }),
 });
 
